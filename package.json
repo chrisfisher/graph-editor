@@ -1,0 +1,30 @@
+{
+  "name": "react-graph-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify --extension=js -o build/bundle.js src/index.js -d & http-server -p 8000"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+        "babelify"
+    ]
+  },
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-bootstrap": "^0.28.0",
+    "react-dom": "^0.14.0",
+    "react-draggable": "^1.3.7",
+    "react-redux": "^4.4.0",
+    "redux": "^3.4.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
+    "babelify": "~6.1.2",
+    "browserify": "~10.2.4",
+    "watchify": "^3.3.1"
+  }
+}

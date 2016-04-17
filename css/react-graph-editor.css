@@ -1,0 +1,37 @@
+/* Graph styling */
+
+body {
+  padding: 20px;  
+}
+
+.hidden {
+  display: none !important;  
+}
+
+.graphScene {
+  margin: 20px 0;
+  width: 500px;
+  height: 300px;  
+  border: 1px solid #eee;
+}
+
+.graphNode {
+  z-index: 0;
+  width: 100px;
+  height: 100px;
+  margin: 0 20px 20px 0;
+  fill: #f8f5ec;;
+  stroke: #99e5ff;
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+.graphNode .active {
+  z-index: 100;  
+}
+
+.graphConnectorPoint {
+  fill: #99e5ff;
+  cursor: pointer;
+}
+
