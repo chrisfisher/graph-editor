@@ -1,23 +1,14 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
-import GraphNode from './GraphNode'
+import React from 'react'
+import DraggableNodesContainer from '../containers/DraggableNodesContainer'
+import DraggedNodesContainer from '../containers/DraggedNodesContainer'
 
-const GraphScene = ({ graphNodes, onGraphNodeDragStart, onGraphNodeDragStop, onGraphNodeDrag, onGraphSceneClick }) => {
-  const nodes = graphNodes.map(graphNode =>      
-      <GraphNode
-        key={graphNode.id}
-        {...graphNode}          
-        onDragStart={(event) => onGraphNodeDragStart(event, graphNode.id)}
-        onDragStop={(event) => onGraphNodeDragStop(event, graphNode.id)}
-        onDrag={(event, data) => onGraphNodeDrag(event, data, graphNode.id)} />
-    )
-    
-    return (
-      <svg className="graphScene" onClick={(event) => onGraphSceneClick(event)}>
-        {nodes}
-      </svg>
-    )
+const GraphScene = ({ onGraphSceneClick }) => {    
+  return (
+    <svg className="graphScene" onClick={(event) => onGraphSceneClick(event)}>
+      <DraggedNodesContainer />
+      <DraggableNodesContainer />
+    </svg>
+  )
 }
 
-export default GraphScene 
+export default GraphScene

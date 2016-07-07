@@ -10,27 +10,24 @@ body {
 
 .graphScene {
   margin: 20px 0;
-  width: 500px;
-  height: 300px;  
+  width: 800px;
+  height: 600px;  
   border: 1px solid #eee;
 }
 
 .graphNode {
-  z-index: 0;
-  width: 100px;
-  height: 100px;
   margin: 0 20px 20px 0;
-  fill: #f8f5ec;;
+  fill: #f8f5ec;
   stroke: #99e5ff;
-  stroke-width: 2;
+  stroke-width: 1;
   cursor: pointer;
 }
 
-.graphNode .active {
-  z-index: 100;  
+.graphNode.selected {
+  stroke-width: 2;
 }
 
-.graphConnectorPoint {
+.graphPoint {
   fill: #99e5ff;
   cursor: pointer;
 }

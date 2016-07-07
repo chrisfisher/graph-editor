@@ -1,30 +1,46 @@
 {
-  "name": "react-graph-editor",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "graph-editor",
+  "version": "0.0.0",
+  "description": "A simple graph editor using react.js and redux.",
   "scripts": {
-    "start": "watchify --extension=js -o build/bundle.js src/index.js -d & http-server -p 8000"
+    "start": "http-server -p 8000",
+    "dev": "webpack -d --watch & http-server -p 8000",
+    "build": "webpack -p",
+    "test": "mocha src/test --recursive --compilers js:babel-core/register",
+    "test:watch": "npm test -- --watch"
   },
-  "author": "",
-  "license": "ISC",
-  "browserify": {
-    "transform": [
-        "babelify"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisfisher/graph-editor.git"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
   "dependencies": {
-    "react": "^0.14.0",
+    "lodash": "^4.11.2",
+    "react": "^15.0.1",
     "react-bootstrap": "^0.28.0",
-    "react-dom": "^0.14.0",
+    "react-dom": "^15.0.1",
     "react-draggable": "^1.3.7",
-    "react-redux": "^4.4.0",
-    "redux": "^3.4.0"
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.0",
+    "redux-thunk": "^2.0.1",
+    "reselect": "^2.5.1"
   },
   "devDependencies": {
+    "babel-core": "^6.3.15",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-lodash": "^3.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
-    "babelify": "~6.1.2",
-    "browserify": "~10.2.4",
-    "watchify": "^3.3.1"
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "enzyme": "^2.0.0",
+    "expect": "^1.16.0",
+    "mocha": "^2.2.5",
+    "node-libs-browser": "^1.0.0",
+    "react-addons-test-utils": "^15.0.1",
+    "webpack": "^1.9.11"
   }
 }

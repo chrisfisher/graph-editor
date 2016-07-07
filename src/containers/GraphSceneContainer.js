@@ -1,46 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import GraphScene from '../components/GraphScene'
-import { 
-  singleSelectGraphNode,
-  multiSelectGraphNode,
-  clearSelectedGraphNodes,
-  stopDraggingGraphNodes,
-  dragGraphNodes
-} from '../actions'
+import { clearSelectedNodes } from '../actions'
 
-let GraphSceneContainer = ({ graphNodes, onGraphNodeDragStart, onGraphNodeDragStop, onGraphNodeDrag, onGraphSceneClick }) => {
-  const props = { graphNodes, onGraphNodeDragStart, onGraphNodeDragStop, onGraphNodeDrag, onGraphSceneClick }
+let GraphSceneContainer = ({ onGraphSceneClick }) => {
+  const props = { onGraphSceneClick }
   return (
     <GraphScene { ...props } />
   )
 }
 
 const mapStateToProps = (state) => {
-  return {
-    graphNodes: state.graphNodes
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGraphNodeDragStart: (event, id) => {
-      if (event.shiftKey) {
-        dispatch(multiSelectGraphNode(id))
-      } else {
-        dispatch(singleSelectGraphNode(id))
-      }      
-    },
-    onGraphNodeDragStop: (event, id) => {
-      dispatch(stopDraggingGraphNodes())
-    },
     onGraphSceneClick: (event) => {
       if (event.target.tagName == 'svg') {
-        dispatch(clearSelectedGraphNodes())
+        dispatch(clearSelectedNodes())
       }      
-    },
-    onGraphNodeDrag: (event, data, id) => {
-      dispatch(dragGraphNodes(id, data.deltaX, data.deltaY))  
     }
   }
 }

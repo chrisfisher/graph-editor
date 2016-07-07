@@ -1,10 +1,10 @@
 import React from 'react'
-import AddGraphNode from '../containers/AddGraphNode'
+import GraphControls from '../containers/GraphControls'
 import GraphSceneContainer from '../containers/GraphSceneContainer'
 
 const App = () => (
   <div>
-    <AddGraphNode />
+    <GraphControls />
     <GraphSceneContainer />
   </div>
 )
