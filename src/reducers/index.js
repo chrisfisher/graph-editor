@@ -13,9 +13,9 @@ export function getSelectedIds(state) {
 
 export function getDraggableNodes(state) {
   return state.graphNodes.orderedIds.map(x => ({
-    nodeId: x,   
+    nodeId: x,
     draggableNodeFrame: state.graphNodes.byId[x],
-		graphPoints: getPointsForNode(state.graphPoints, x)
+    graphPoints: getPointsForNode(state.graphPoints, x)
   }))
 }
 
@@ -23,26 +23,26 @@ export function getDraggedNodes(state) {
   return state.graphNodes.draggedIds.map(x => ({
     nodeId: x,
     draggedNodeFrame: state.graphNodes.byId[x],
-		graphPoints: getPointsForNode(state.graphPoints, x)
+    graphPoints: getPointsForNode(state.graphPoints, x)
   }))
 }
 
 export function getDragDistance(state) {
-	let dragDistance = state.graphNodes.dragDistance
-	return {
-		x: dragDistance.x || 0,
-		y: dragDistance.y || 0
-	}
+  let dragDistance = state.graphNodes.dragDistance
+  return {
+    x: dragDistance.x || 0,
+    y: dragDistance.y || 0
+  }
 }
 
 export function isResizing(state) {
-	return state.graphPoints.isResizing
+  return state.graphPoints.isResizing
 }
 
 export function getNode(state, nodeId) {
-	return state.graphNodes.byId[nodeId]
+  return state.graphNodes.byId[nodeId]
 }
 
 export function getPointForNode(state, nodeId, pointId) {
-	return state.graphPoints.byNodeId[nodeId].find(x => x.pointId === pointId)
+  return state.graphPoints.byNodeId[nodeId].find(x => x.pointId === pointId)
 }

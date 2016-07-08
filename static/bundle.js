@@ -39972,8 +39972,6 @@
 	        return {
 	          v: _extends({}, state, _defineProperty({}, action.nodeId, graphPoints(state[action.nodeId], action)))
 	        };
-	      case _ActionTypes2.default.DELETE_NODES:
-	
 	      default:
 	        return {
 	          v: state
@@ -40023,9 +40021,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _GraphControls = __webpack_require__(/*! ../containers/GraphControls */ 200);
+	var _GraphControlsContainer = __webpack_require__(/*! ../containers/GraphControlsContainer */ 200);
 	
-	var _GraphControls2 = _interopRequireDefault(_GraphControls);
+	var _GraphControlsContainer2 = _interopRequireDefault(_GraphControlsContainer);
 	
 	var _GraphSceneContainer = __webpack_require__(/*! ../containers/GraphSceneContainer */ 456);
 	
@@ -40037,7 +40035,7 @@
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_GraphControls2.default, null),
+	    _react2.default.createElement(_GraphControlsContainer2.default, null),
 	    _react2.default.createElement(_GraphSceneContainer2.default, null)
 	  );
 	};
@@ -40046,9 +40044,9 @@
 
 /***/ },
 /* 200 */
-/*!*****************************************!*\
-  !*** ./src/containers/GraphControls.js ***!
-  \*****************************************/
+/*!**************************************************!*\
+  !*** ./src/containers/GraphControlsContainer.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58850,7 +58848,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 	exports.getDraggableIds = exports.getPassiveSelectedIds = undefined;
 	
@@ -58859,32 +58857,32 @@
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	var getNodesById = function getNodesById(state) {
-		return state.graphNodes.byId;
+	  return state.graphNodes.byId;
 	};
 	var getSelectedId = function getSelectedId(state) {
-		return state.graphNodes.selectedId;
+	  return state.graphNodes.selectedId;
 	};
 	var getSelectedIds = function getSelectedIds(state) {
-		return state.graphNodes.selectedIds;
+	  return state.graphNodes.selectedIds;
 	};
 	var getDraggedIds = function getDraggedIds(state) {
-		return state.graphNodes.draggedIds;
+	  return state.graphNodes.draggedIds;
 	};
 	
 	var getPassiveSelectedIds = exports.getPassiveSelectedIds = (0, _reselect.createSelector)([getSelectedId, getSelectedIds], function (selectedId, selectedIds) {
-		var passiveSelectedIds = [].concat(_toConsumableArray(selectedIds));
-		passiveSelectedIds.splice(passiveSelectedIds.indexOf(selectedId), 1);
-		return passiveSelectedIds;
+	  var passiveSelectedIds = [].concat(_toConsumableArray(selectedIds));
+	  passiveSelectedIds.splice(passiveSelectedIds.indexOf(selectedId), 1);
+	  return passiveSelectedIds;
 	});
 	
 	var getDraggableIds = exports.getDraggableIds = (0, _reselect.createSelector)([getNodesById, getDraggedIds], function (nodesById, draggedIds) {
-		var draggableIds = Object.keys(nodesById).map(function (x) {
-			return parseInt(x);
-		});
-		draggedIds.forEach(function (x) {
-			draggableIds.splice(draggableIds.indexOf(x), 1);
-		});
-		return draggableIds;
+	  var draggableIds = Object.keys(nodesById).map(function (x) {
+	    return parseInt(x);
+	  });
+	  draggedIds.forEach(function (x) {
+	    draggableIds.splice(draggableIds.indexOf(x), 1);
+	  });
+	  return draggableIds;
 	});
 
 /***/ },
@@ -59266,7 +59264,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+	  value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -59282,47 +59280,47 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var DraggableNode = function DraggableNode(_ref) {
-			var nodeId = _ref.nodeId;
-			var selected = _ref.selected;
-			var draggableNodeFrame = _ref.draggableNodeFrame;
-			var graphPoints = _ref.graphPoints;
-			var dx = _ref.dx;
-			var dy = _ref.dy;
-			var onNodeDragStart = _ref.onNodeDragStart;
-			var onNodeDrag = _ref.onNodeDrag;
-			var onNodeDragStop = _ref.onNodeDragStop;
-			var onPointDragStart = _ref.onPointDragStart;
-			var onPointDrag = _ref.onPointDrag;
-			var onPointDragStop = _ref.onPointDragStop;
-			var x = draggableNodeFrame.x;
-			var y = draggableNodeFrame.y;
-			var width = draggableNodeFrame.width;
-			var height = draggableNodeFrame.height;
+	  var nodeId = _ref.nodeId;
+	  var selected = _ref.selected;
+	  var draggableNodeFrame = _ref.draggableNodeFrame;
+	  var graphPoints = _ref.graphPoints;
+	  var dx = _ref.dx;
+	  var dy = _ref.dy;
+	  var onNodeDragStart = _ref.onNodeDragStart;
+	  var onNodeDrag = _ref.onNodeDrag;
+	  var onNodeDragStop = _ref.onNodeDragStop;
+	  var onPointDragStart = _ref.onPointDragStart;
+	  var onPointDrag = _ref.onPointDrag;
+	  var onPointDragStop = _ref.onPointDragStop;
+	  var x = draggableNodeFrame.x;
+	  var y = draggableNodeFrame.y;
+	  var width = draggableNodeFrame.width;
+	  var height = draggableNodeFrame.height;
 	
 	
-			if (selected) {
-					return _react2.default.createElement(
-							_reactDraggable.DraggableCore,
-							{ onStart: onNodeDragStart, onDrag: onNodeDrag, onStop: onNodeDragStop },
-							_react2.default.createElement(
-									'g',
-									{ transform: 'translate(' + dx + ',' + dy + ')' },
-									_react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } }),
-									_react2.default.createElement(_GraphPoints2.default, {
-											graphPoints: graphPoints,
-											nodeId: nodeId,
-											onPointDragStart: onPointDragStart,
-											onPointDrag: onPointDrag,
-											onPointDragStop: onPointDragStop })
-							)
-					);
-			}
+	  if (selected) {
+	    return _react2.default.createElement(
+	      _reactDraggable.DraggableCore,
+	      { onStart: onNodeDragStart, onDrag: onNodeDrag, onStop: onNodeDragStop },
+	      _react2.default.createElement(
+	        'g',
+	        { transform: 'translate(' + dx + ',' + dy + ')' },
+	        _react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } }),
+	        _react2.default.createElement(_GraphPoints2.default, {
+	          graphPoints: graphPoints,
+	          nodeId: nodeId,
+	          onPointDragStart: onPointDragStart,
+	          onPointDrag: onPointDrag,
+	          onPointDragStop: onPointDragStop })
+	      )
+	    );
+	  }
 	
-			return _react2.default.createElement(
-					_reactDraggable.DraggableCore,
-					{ onStart: onNodeDragStart, onDrag: onNodeDrag, onStop: onNodeDragStop },
-					_react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } })
-			);
+	  return _react2.default.createElement(
+	    _reactDraggable.DraggableCore,
+	    { onStart: onNodeDragStart, onDrag: onNodeDrag, onStop: onNodeDragStop },
+	    _react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } })
+	  );
 	};
 	
 	exports.default = DraggableNode;
@@ -60774,7 +60772,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var radius = 5;
+	var width = 8;
+	var height = 8;
 	
 	var GraphPoint = function GraphPoint(_ref) {
 	  var cx = _ref.cx;
@@ -60786,7 +60785,7 @@
 	  return _react2.default.createElement(
 	    _reactDraggable.DraggableCore,
 	    { onStart: onDragStart, onDrag: onDrag, onStop: onDragStop },
-	    _react2.default.createElement('circle', { className: 'graphPoint', cx: cx, cy: cy, r: radius })
+	    _react2.default.createElement('rect', { className: 'graphPoint', x: cx - width / 2, y: cy - height / 2, style: { width: width, height: height } })
 	  );
 	};
 	
@@ -60899,7 +60898,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+	  value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -60913,19 +60912,19 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var DraggedNode = function DraggedNode(_ref) {
-			var draggedNodeFrame = _ref.draggedNodeFrame;
-			var graphPoints = _ref.graphPoints;
-			var x = draggedNodeFrame.x;
-			var y = draggedNodeFrame.y;
-			var width = draggedNodeFrame.width;
-			var height = draggedNodeFrame.height;
+	  var draggedNodeFrame = _ref.draggedNodeFrame;
+	  var graphPoints = _ref.graphPoints;
+	  var x = draggedNodeFrame.x;
+	  var y = draggedNodeFrame.y;
+	  var width = draggedNodeFrame.width;
+	  var height = draggedNodeFrame.height;
 	
-			return _react2.default.createElement(
-					'g',
-					null,
-					_react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } }),
-					_react2.default.createElement(_GraphPoints2.default, { graphPoints: graphPoints })
-			);
+	  return _react2.default.createElement(
+	    'g',
+	    null,
+	    _react2.default.createElement('rect', { className: 'graphNode', x: x, y: y, style: { width: width, height: height } }),
+	    _react2.default.createElement(_GraphPoints2.default, { graphPoints: graphPoints })
+	  );
 	};
 	
 	exports.default = DraggedNode;

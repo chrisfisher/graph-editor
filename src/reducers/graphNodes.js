@@ -9,11 +9,11 @@ function graphNodes(state, action) {
         x: action.x,
         y: action.y,
         width: action.width,
-        height: action.height				
+        height: action.height
       }
     case types.STOP_DRAGGING_NODE:
       return { ...state, x: state.x + action.dx, y: state.y + action.dy }
-		case types.DRAG_POINT:			
+    case types.DRAG_POINT:
       return {
         ...state,
         x: state.x + (action.axis.x < 0 ? action.dx : 0),
@@ -34,31 +34,31 @@ function byId(state = {}, action) {
         ...state,
         [action.nodeId]: graphNodes(state[action.nodeId], action)
       }
-	  case types.STOP_DRAGGING_NODE:
+    case types.STOP_DRAGGING_NODE:
       newState = { ...state }
       action.draggedIds.forEach(x => {
         newState[x] = graphNodes(state[x], action)
       })
-			newState[action.nodeId] = graphNodes(state[action.nodeId], action)
+      newState[action.nodeId] = graphNodes(state[action.nodeId], action)
       return newState
-		case types.DRAG_POINT:
-			return {
-				...state,
-				[action.nodeId]: graphNodes(state[action.nodeId], action)
-			}
+    case types.DRAG_POINT:
+      return {
+        ...state,
+        [action.nodeId]: graphNodes(state[action.nodeId], action)
+      }
     case types.DELETE_NODES:
       newState = { ...state }
       action.selectedIds.forEach(x => {
         delete newState[x]
       })
       return newState
-	  default:
+    default:
       return state
   }
 }
 
 function orderedIds(state = [], action) {
-  switch(action.type) {  
+  switch(action.type) {
     case types.ADD_NODE:
       return [ ...state, action.nodeId ]
     case types.DELETE_NODES:
@@ -74,7 +74,7 @@ function orderedIds(state = [], action) {
 
 function selectedId(state = 0, action) {
   switch(action.type) {
-    case types.SINGLE_SELECT_NODE:      
+    case types.SINGLE_SELECT_NODE:
       return action.nodeId
     case types.MULTI_SELECT_NODE:
       return action.nodeId
@@ -83,7 +83,7 @@ function selectedId(state = 0, action) {
       return 0
     default:
       return state
-  }    
+  }
 }
 
 function selectedIds(state = [], action) {
@@ -105,29 +105,29 @@ function selectedIds(state = [], action) {
 }
 
 function draggedIds(state = [], action) {
-  switch(action.type) {    
+  switch(action.type) {
     case types.DRAG_NODE:
       return state.length
         ? state
         : [ ...action.draggedIds ]
-		case types.STOP_DRAGGING_NODE:
-			return []
+    case types.STOP_DRAGGING_NODE:
+      return []
     default:
       return state
   }
 }
 
 function dragDistance(state = { x: 0, y: 0 }, action) {
-	switch(action.type) {
-		case types.DRAG_NODE: 
-			return { 
+  switch(action.type) {
+    case types.DRAG_NODE:
+      return {
         x: state.x + action.dx,
         y: state.y + action.dy
-      }    
-		case types.STOP_DRAGGING_NODE:
-			return { x: 0, y: 0 }
-		default:
-			return state
+      }
+    case types.STOP_DRAGGING_NODE:
+      return { x: 0, y: 0 }
+    default:
+      return state
   }
 }
 

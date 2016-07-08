@@ -1,12 +1,13 @@
 import React from 'react'
 import { DraggableCore } from 'react-draggable'
 
-let radius = 5
+const width = 8
+const height = 8
 
 const GraphPoint = ({cx, cy, onDragStart, onDrag, onDragStop}) => {
   return (
     <DraggableCore onStart={onDragStart} onDrag={onDrag} onStop={onDragStop}>
-      <circle className="graphPoint" cx={cx} cy={cy} r={radius} ></circle>
+      <rect className="graphPoint" x={cx - width/2} y={cy - height/2} style={{ width: width, height: height }}></rect>
     </DraggableCore>
   )
 }

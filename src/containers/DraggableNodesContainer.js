@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import DraggableNodes from '../components/DraggableNodes'
 import { getDraggableNodes, getSelectedIds, getDragDistance } from '../reducers'
-import { 
+import {
   singleSelectNode,
   multiSelectNode,
-	dragNode,
+  dragNode,
   stopDraggingNode,
-	startDraggingPoint,  
+  startDraggingPoint,
   dragPoint,
-	stopDraggingPoint
+  stopDraggingPoint
 } from '../actions'
 
 let DraggableNodesContainer = ({ draggableNodes = [], selectedIds, dx, dy, onNodeDragStart, onNodeDragStop, onNodeDrag, onPointDragStart, onPointDrag, onPointDragStop }) => {
@@ -20,12 +20,12 @@ let DraggableNodesContainer = ({ draggableNodes = [], selectedIds, dx, dy, onNod
 }
 
 const mapStateToProps = (state) => {
-	let {x, y} = getDragDistance(state)
+  let {x, y} = getDragDistance(state)
   return {
     draggableNodes: getDraggableNodes(state),
-		selectedIds: getSelectedIds(state),
-		dx: x,
-		dy: y
+    selectedIds: getSelectedIds(state),
+    dx: x,
+    dy: y
   };
 }
 
@@ -41,16 +41,16 @@ const mapDispatchToProps = (dispatch) => {
     onNodeDrag: (event, data, nodeId) => {
       dispatch(dragNode(data.position.deltaX, data.position.deltaY, nodeId))  
     },
-		onNodeDragStop: (event, nodeId) => {
+    onNodeDragStop: (event, nodeId) => {
       dispatch(stopDraggingNode(nodeId))
-    },	
-		onPointDragStart: (event, pointId, nodeId) => {
+    },
+    onPointDragStart: (event, pointId, nodeId) => {
       dispatch(startDraggingPoint(nodeId, pointId))
-    },    
-		onPointDrag: (event, data, pointId, nodeId) => {
+    },
+    onPointDrag: (event, data, pointId, nodeId) => {
       dispatch(dragPoint(nodeId, pointId, data.position.deltaX, data.position.deltaY))  
     },
-		onPointDragStop: (event, pointId, nodeId) => {
+    onPointDragStop: (event, pointId, nodeId) => {
       dispatch(stopDraggingPoint(nodeId, pointId))
     }
   }

@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     onGraphSceneClick: (event) => {
       if (event.target.tagName == 'svg') {
         dispatch(clearSelectedNodes())
-      }      
+      }
     }
   }
 }

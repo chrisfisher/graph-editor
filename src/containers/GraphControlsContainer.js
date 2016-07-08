@@ -8,7 +8,7 @@ let height = 100
 
 let GraphControls = ({ dispatch }) => {
   return (
-    <div>      
+    <div>
       <Button onClick={() => {dispatch(addNode(width, height))}}>Add</Button>
       <Button onClick={() => {dispatch(deleteNodes())}}>Delete</Button>
       <Button onClick={() => {dispatch(bringNodesToFront())}}>Bring to front</Button>

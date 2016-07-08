@@ -1,4 +1,4 @@
-export default {  
+export default {
   ADD_NODE: 'ADD_NODE',
   DELETE_NODES: 'DELETE_NODES',
   SINGLE_SELECT_NODE: 'SINGLE_SELECT_NODE',

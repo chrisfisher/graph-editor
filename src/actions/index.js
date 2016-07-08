@@ -47,26 +47,26 @@ export function clearSelectedNodes() {
 
 export function dragNode(dx, dy, nodeId) {
   return (dispatch, getState) => {
-		if (isResizing(getState())) return		
-		dispatch({
-			type: types.DRAG_NODE,
-			nodeId: nodeId,
-			draggedIds: getPassiveSelectedIds(getState()),
-			dx: dx,
-			dy: dy    
-		})		
+    if (isResizing(getState())) return
+    dispatch({
+      type: types.DRAG_NODE,
+      nodeId: nodeId,
+      draggedIds: getPassiveSelectedIds(getState()),
+      dx: dx,
+      dy: dy
+    })
   }
 }
 
 export function stopDraggingNode(nodeId) {
-  return (dispatch, getState) => {	
-		let dragDistance = getDragDistance(getState())  
+  return (dispatch, getState) => {
+    let dragDistance = getDragDistance(getState())
     dispatch({
       type: types.STOP_DRAGGING_NODE,
       nodeId: nodeId,
       draggedIds: getPassiveSelectedIds(getState()),
       dx: dragDistance.x,
-			dy: dragDistance.y
+      dy: dragDistance.y
     })
   }
 }
@@ -83,10 +83,10 @@ const minNodeWidth = 50
 const minNodeHeight = 50
 export function dragPoint(nodeId, pointId, dx, dy) {
   return (dispatch, getState) => {
-		let node = getNode(getState(), nodeId)
-		let point = getPointForNode(getState(), nodeId, pointId)
-		if (node.width <= minNodeWidth && (point.axis.x * dx < 0)) return
-		if (node.height <= minNodeHeight && (point.axis.y * dy < 0)) return
+    let node = getNode(getState(), nodeId)
+    let point = getPointForNode(getState(), nodeId, pointId)
+    if (node.width <= minNodeWidth && (point.axis.x * dx < 0)) return
+    if (node.height <= minNodeHeight && (point.axis.y * dy < 0)) return
     dispatch({
       type: types.DRAG_POINT,
       nodeId: nodeId,
