@@ -73,10 +73,10 @@ export function stopDraggingNode(nodeId) {
 
 export function startDraggingPoint(nodeId, pointId) {
   return {
-		type: types.START_DRAGGING_POINT,
-		nodeId,
-		pointId
-	}
+    type: types.START_DRAGGING_POINT,
+    nodeId,
+    pointId
+  }
 }
 
 const minNodeWidth = 50
