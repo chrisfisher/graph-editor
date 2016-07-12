@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import _ from 'lodash' 
+import difference from 'lodash/difference' 
 import types from '../constants/ActionTypes'
 
 function graphNodes(state, action) {
@@ -27,7 +27,7 @@ function graphNodes(state, action) {
 }
 
 function byId(state = {}, action) {
-  let newState
+  let nextState
   switch (action.type) {
     case types.ADD_NODE:
       return {
@@ -35,23 +35,23 @@ function byId(state = {}, action) {
         [action.nodeId]: graphNodes(state[action.nodeId], action)
       }
     case types.STOP_DRAGGING_NODE:
-      newState = { ...state }
+      nextState = { ...state }
       action.draggedIds.forEach(x => {
-        newState[x] = graphNodes(state[x], action)
+        nextState[x] = graphNodes(state[x], action)
       })
-      newState[action.nodeId] = graphNodes(state[action.nodeId], action)
-      return newState
+      nextState[action.nodeId] = graphNodes(state[action.nodeId], action)
+      return nextState
     case types.DRAG_POINT:
       return {
         ...state,
         [action.nodeId]: graphNodes(state[action.nodeId], action)
       }
     case types.DELETE_NODES:
-      newState = { ...state }
+      nextState = { ...state }
       action.selectedIds.forEach(x => {
-        delete newState[x]
+        delete nextState[x]
       })
-      return newState
+      return nextState
     default:
       return state
   }
@@ -62,11 +62,11 @@ function orderedIds(state = [], action) {
     case types.ADD_NODE:
       return [ ...state, action.nodeId ]
     case types.DELETE_NODES:
-      return _.difference(state, action.selectedIds)
+      return difference(state, action.selectedIds)
     case types.BRING_NODES_TO_FRONT:
-      return _.difference(state, action.selectedIds).concat(action.selectedIds)
+      return difference(state, action.selectedIds).concat(action.selectedIds)
     case types.SEND_NODES_TO_BACK:
-      return action.selectedIds.concat(_.difference(state, action.selectedIds))
+      return action.selectedIds.concat(difference(state, action.selectedIds))
     default:
       return state
   }

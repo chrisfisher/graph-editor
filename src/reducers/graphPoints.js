@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
 import types from '../constants/ActionTypes'
 
-// 1 'left-top'
-// 2 'left-mid'
-// 3 'left-bot'
-// 4 'mid-top'
-// 5 'mid-bot'
-// 6 'right-top'
-// 7 'right-mid'
-// 8 'right-bot'
+// 1 'north-west'
+// 2 'west'
+// 3 'south-west'
+// 4 'north'
+// 5 'south'
+// 6 'north-east'
+// 7 'east'
+// 8 'south-east'
 
 function graphPoint(state, action) {
   switch (action.type) {
@@ -56,6 +56,7 @@ function graphPoints(state, action) {
 }
 
 function byNodeId(state = {}, action) {
+  let nextState
   switch (action.type) {
     case types.ADD_NODE:
       return {
@@ -63,12 +64,12 @@ function byNodeId(state = {}, action) {
         [action.nodeId]: graphPoints(undefined, action)
       }
     case types.STOP_DRAGGING_NODE:
-      let newState = { ...state }
+      nextState = { ...state }
       action.draggedIds.forEach(x => {
-        newState[x] = graphPoints(state[x], action)
+        nextState[x] = graphPoints(state[x], action)
       })
-      newState[action.nodeId] = graphPoints(state[action.nodeId], action)
-      return newState
+      nextState[action.nodeId] = graphPoints(state[action.nodeId], action)
+      return nextState
     case types.DRAG_POINT:
       return {
         ...state,

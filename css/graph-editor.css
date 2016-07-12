@@ -21,11 +21,39 @@ body {
 
 .graphPoint {
   fill: #99e5ff;
-  cursor: pointer;
 }
 
-.graphWireSegment {
-  stroke: #ccc;
-  stroke-width: 1;
+.graphPoint.north {
+  cursor: n-resize;
 }
+
+.graphPoint.northEast {
+  cursor: ne-resize;
+}
+
+.graphPoint.east {
+  cursor: e-resize;
+}
+
+.graphPoint.southEast {
+  cursor: se-resize;
+}
+
+.graphPoint.south {
+  cursor: s-resize;
+}
+
+.graphPoint.southWest {
+  cursor: sw-resize;
+}
+
+.graphPoint.west {
+  cursor: w-resize;
+}
+
+.graphPoint.northWest {
+  cursor: nw-resize;
+}
+
+
 

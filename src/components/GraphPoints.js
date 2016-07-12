@@ -6,7 +6,8 @@ const GraphPoints = ({ graphPoints, nodeId, onPointDragStart, onPointDrag, onPoi
     <g>
       {graphPoints.map(x => (
         <GraphPoint 
-          key={nodeId + '-' + x.pointId} 
+          key={nodeId + '-' + x.pointId}
+          pointId={x.pointId} 
           cx={x.cx}
           cy={x.cy}
           onDragStart={(event) => onPointDragStart(event, x.pointId, nodeId )}

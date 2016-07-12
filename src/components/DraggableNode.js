@@ -7,17 +7,17 @@ const DraggableNode = ({ nodeId, selected, draggableNodeFrame, graphPoints, dx, 
   
   if (selected) {
     return (
-    <DraggableCore onStart={onNodeDragStart} onDrag={onNodeDrag} onStop={onNodeDragStop}>
-      <g transform={'translate(' + dx + ',' + dy +')'}>
-        <rect className="graphNode" x={x} y={y} style={{ width: width, height: height }}></rect>
-        <GraphPoints 
-          graphPoints={graphPoints}
-          nodeId={nodeId}
-          onPointDragStart={onPointDragStart}
-          onPointDrag={onPointDrag}
-          onPointDragStop={onPointDragStop} />
-      </g>
-    </DraggableCore>
+      <DraggableCore onStart={onNodeDragStart} onDrag={onNodeDrag} onStop={onNodeDragStop}>
+        <g transform={'translate(' + dx + ',' + dy +')'}>
+          <rect className="graphNode" x={x} y={y} style={{ width: width, height: height }}></rect>
+          <GraphPoints 
+            graphPoints={graphPoints}
+            nodeId={nodeId}
+            onPointDragStart={onPointDragStart}
+            onPointDrag={onPointDrag}
+            onPointDragStop={onPointDragStop} />
+        </g>
+      </DraggableCore>
     )
   }
   
