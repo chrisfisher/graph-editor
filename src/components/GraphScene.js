@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import DraggableNodes from './DraggableNodes'
 import DraggedNodes from './DraggedNodes'
-
 import { clearSelectedNodes } from '../actions'
 
 const GraphScene = ({ onGraphSceneClick }) => {
