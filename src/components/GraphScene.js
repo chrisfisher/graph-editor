@@ -1,14 +1,30 @@
 import React from 'react'
-import DraggableNodesContainer from '../containers/DraggableNodesContainer'
-import DraggedNodesContainer from '../containers/DraggedNodesContainer'
+import { connect } from 'react-redux'
+import DraggableNodes from './DraggableNodes'
+import DraggedNodes from './DraggedNodes'
+
+import { clearSelectedNodes } from '../actions'
 
 const GraphScene = ({ onGraphSceneClick }) => {
   return (
     <svg className="graphScene" onClick={(event) => onGraphSceneClick(event)}>
-      <DraggedNodesContainer />
-      <DraggableNodesContainer />
+      <DraggedNodes />
+      <DraggableNodes />
     </svg>
   )
 }
 
-export default GraphScene
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGraphSceneClick: (event) => {
+      if (event.target.tagName == 'svg') {
+        dispatch(clearSelectedNodes())
+      }
+    }
+  }
+}
+
+export default connect(
+  (state) => ({}),
+  mapDispatchToProps
+)(GraphScene)

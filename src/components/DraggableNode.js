@@ -19,13 +19,13 @@ const DraggableNode = ({ nodeId, selected, draggableNodeFrame, graphPoints, dx, 
         </g>
       </DraggableCore>
     )
+  } else {
+    return (
+      <DraggableCore onStart={onNodeDragStart} onDrag={onNodeDrag} onStop={onNodeDragStop}>
+        <rect className="graphNode" x={x} y={y} style={{ width: width, height: height }} ></rect>
+      </DraggableCore>
+    )
   }
-  
-  return (
-    <DraggableCore onStart={onNodeDragStart} onDrag={onNodeDrag} onStop={onNodeDragStop}>
-      <rect className="graphNode" x={x} y={y} style={{ width: width, height: height }} ></rect>
-    </DraggableCore>
-  )
 }
 
 export default DraggableNode
