@@ -1,7 +1,13 @@
-import { getPassiveSelectedIds } from '../selectors'
-import { getDragDistance, isResizing, getNode, getPointForNode, getSelectedIds } from '../reducers'
 import types from '../constants/ActionTypes'
 import { v4 } from 'node-uuid'
+import { 
+  getDragDistance,
+  isResizing,
+  getNode,
+  getPointForNode,
+  getSelectedIds,
+  getPassiveSelectedIds
+} from '../reducers'
 
 export const addNode = (width, height) => ({
   type: types.ADD_NODE,

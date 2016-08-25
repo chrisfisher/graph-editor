@@ -96,6 +96,4 @@ export default combineReducers({
   isResizing
 })
 
-export function getPointsForNode(state, nodeId) {
-  return state.byNodeId[nodeId]
-}
+export const getPointsForNode = (state, nodeId) => state.byNodeId[nodeId]

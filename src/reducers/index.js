@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import graphNodes from './graphNodes'
-import { default as graphPoints, getPointsForNode } from './graphPoints'
+import graphPoints, { getPointsForNode } from './graphPoints'
 import { createSelector  } from 'reselect'
 
 export default combineReducers({
@@ -8,11 +8,9 @@ export default combineReducers({
   graphPoints
 })
 
-export function getSelectedIds(state) {
-  return state.graphNodes.selectedIds
-}
+export const getSelectedIds = state => state.graphNodes.selectedIds
 
-export function getDraggableNodes(state) {
+export const getDraggableNodes = state => {
   return state.graphNodes.orderedIds.map(x => ({
     nodeId: x,
     draggableNodeFrame: state.graphNodes.byId[x],
@@ -20,7 +18,7 @@ export function getDraggableNodes(state) {
   }))
 }
 
-export function getDraggedNodes(state) {
+export const getDraggedNodes = state => {
   return state.graphNodes.draggedIds.map(x => ({
     nodeId: x,
     draggedNodeFrame: state.graphNodes.byId[x],
@@ -28,7 +26,7 @@ export function getDraggedNodes(state) {
   }))
 }
 
-export function getDragDistance(state) {
+export const getDragDistance = state => {
   let dragDistance = state.graphNodes.dragDistance
   return {
     x: dragDistance.x || 0,
@@ -36,14 +34,34 @@ export function getDragDistance(state) {
   }
 }
 
-export function isResizing(state) {
-  return state.graphPoints.isResizing
-}
+export const isResizing = state => state.graphPoints.isResizing
 
-export function getNode(state, nodeId) {
-  return state.graphNodes.byId[nodeId]
-}
+export const getNode = (state, nodeId) => state.graphNodes.byId[nodeId]
 
-export function getPointForNode(state, nodeId, pointId) {
-  return state.graphPoints.byNodeId[nodeId].find(x => x.pointId === pointId)
-}
+export const getPointForNode = (state, nodeId, pointId) => state.graphPoints.byNodeId[nodeId].find(x => x.pointId === pointId)
+
+const getNodesById = state => state.graphNodes.byId
+
+const getSelectedId = state => state.graphNodes.selectedId
+
+const getDraggedIds = state => state.graphNodes.draggedIds
+
+export const getPassiveSelectedIds = createSelector(
+  [getSelectedId, getSelectedIds],
+  (selectedId, selectedIds) => {
+    let passiveSelectedIds = [ ...selectedIds ]
+    passiveSelectedIds.splice(passiveSelectedIds.indexOf(selectedId), 1)
+    return passiveSelectedIds
+  }
+)
+
+export const getDraggableIds = createSelector(
+  [getNodesById, getDraggedIds],
+  (nodesById, draggedIds) => {
+    let draggableIds = Object.keys(nodesById).map(x => parseInt(x))
+    draggedIds.forEach(x => {
+      draggableIds.splice(draggableIds.indexOf(x), 1)
+    })
+    return draggableIds
+  }
+)
