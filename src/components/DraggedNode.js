@@ -1,14 +1,32 @@
-import React from 'react'
-import GraphPoints from './GraphPoints'
+// @flow
 
-const DraggedNode = ({ draggedNodeFrame, graphPoints }) => { 
-  const { x, y, width, height } = draggedNodeFrame 
-  return (
-    <g>
-      <rect className="graphNode" x={x} y={y} style={{ width: width, height: height }}></rect>
-      <GraphPoints graphPoints={graphPoints} />
-    </g>
-  )
+import React, { PureComponent } from 'react';
+import Points from './Points';
+
+import type GraphNode from '../reducers/graphNodes';
+import type GraphPoint from '../reducers/graphPoints';
+
+type Props = {
+  node: GraphNode;
+  points: GraphPoint[];
+};
+
+export default class DraggedNode extends PureComponent {
+  props: Props;
+
+  render() {
+    const { x, y, width, height } = this.props.node;
+
+    return (
+      <g>
+        <rect
+          className='graphNode'
+          x={x}
+          y={y}
+          style={{ width, height }}>
+        </rect>
+        <Points points={this.props.points} />
+      </g>
+    );
+  }
 }
-
-export default DraggedNode

@@ -1,22 +1,39 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
-import { addNode, deleteNodes, bringNodesToFront, sendNodesToBack } from '../actions'
+// @flow
 
-let width = 100
-let height = 100
+import React from 'react';
+import { connect } from 'react-redux';
 
-let GraphControls = ({ dispatch }) => {
-  return (
-    <div>
-      <Button onClick={() => {dispatch(addNode(width, height))}}>Add</Button>
-      <Button onClick={() => {dispatch(deleteNodes())}}>Delete</Button>
-      <Button onClick={() => {dispatch(bringNodesToFront())}}>Bring to front</Button>
-      <Button onClick={() => {dispatch(sendNodesToBack())}}>Send to back</Button>
-    </div>
-  )
-}
+import {
+  addNode,
+  deleteNodes,
+  bringNodesToFront,
+  sendNodesToBack,
+  addManyNodes,
+  selectAllNodes,
+} from '../actions';
 
-GraphControls = connect()(GraphControls)
+const DEFAULT_NODE_WIDTH = 100;
+const DEFAULT_NODE_HEIGHT = 100;
 
-export default GraphControls
+const GraphControls = props => (
+  <div>
+    <span className="button" onClick={() => { props.addNode(DEFAULT_NODE_WIDTH, DEFAULT_NODE_HEIGHT); }}>Add</span>
+    <span className="button" onClick={() => { props.addManyNodes(DEFAULT_NODE_WIDTH, DEFAULT_NODE_HEIGHT); }}>Add many</span>
+    <span className="button" onClick={() => { props.selectAllNodes(); }}>Select all</span>
+    <span className="button" onClick={() => { props.deleteNodes(); }}>Delete</span>
+    <span className="button" onClick={() => { props.bringNodesToFront(); }}>Bring to front</span>
+    <span className="button" onClick={() => { props.sendNodesToBack(); }}>Send to back</span>
+  </div>
+);
+
+export default connect(
+  null,
+  {
+    addNode,
+    deleteNodes,
+    bringNodesToFront,
+    sendNodesToBack,
+    addManyNodes,
+    selectAllNodes,
+  }
+)(GraphControls);

@@ -1,29 +1,27 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import DraggableNodes from './DraggableNodes'
-import DraggedNodes from './DraggedNodes'
-import { clearSelectedNodes } from '../actions'
+// @flow
 
-const GraphScene = ({ onGraphSceneClick }) => {
-  return (
-    <svg className="graphScene" onClick={(event) => onGraphSceneClick(event)}>
-      <DraggedNodes />
-      <DraggableNodes />
-    </svg>
-  )
-}
+import React from 'react';
+import { connect } from 'react-redux';
+import DraggableNodes from './DraggableNodes';
+import DraggedNodes from './DraggedNodes';
+import { clearSelectedNodes } from '../actions';
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onGraphSceneClick: (event) => {
-      if (event.target.tagName == 'svg') {
-        dispatch(clearSelectedNodes())
-      }
+const GraphScene = (props: { onGraphSceneClick: (event: any) => void }) => (
+  <svg className="graphScene" onClick={event => props.onGraphSceneClick(event)}>
+    <DraggedNodes />
+    <DraggableNodes />
+  </svg>
+);
+
+const mapDispatchToProps = dispatch => ({
+  onGraphSceneClick: (event) => {
+    if (event.target.tagName == 'svg') {
+      dispatch(clearSelectedNodes());
     }
-  }
-}
+  },
+});
 
 export default connect(
-  (state) => ({}),
+  null,
   mapDispatchToProps
-)(GraphScene)
+)(GraphScene);

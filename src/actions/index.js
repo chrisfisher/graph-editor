@@ -1,103 +1,143 @@
-import types from '../constants/ActionTypes'
-import { v4 } from 'node-uuid'
-import { 
+// @flow
+
+import { v4 } from 'node-uuid';
+import * as actionTypes from '../constants/actionTypes';
+
+import {
   getDragDistance,
   isResizing,
+  getOrderedIds,
+  getSelectedIds,
+  getPreviousSelectedIds,
   getNode,
   getPointForNode,
-  getSelectedIds,
-  getPassiveSelectedIds
-} from '../reducers'
+} from '../reducers';
 
-export const addNode = (width, height) => ({
-  type: types.ADD_NODE,
+import type Action from 'redux';
+import type AppState from '../reducers';
+import type GraphNode from '../reducers/graphNodes';
+import type GraphPoint from '../reducers/graphPoints';
+
+type Dispatch = (action: Action) => void;
+type GetState = () => AppState;
+
+export const addNode = (width: number, height: number) => ({
+  type: actionTypes.ADD_NODE,
   nodeId: v4(),
   x: 5,
   y: 5,
   width,
-  height
-})
+  height,
+});
 
-export const deleteNodes = () => (dispatch, getState) => {
+export const deleteNodes = () => (dispatch: Dispatch, getState: GetState) => {
   dispatch({
-    type: types.DELETE_NODES,
-    selectedIds: getSelectedIds(getState())
+    type: actionTypes.DELETE_NODES,
+    selectedIds: getSelectedIds(getState()),
   })
-}
+};
 
-export const singleSelectNode = (nodeId) => ({
-  type: types.SINGLE_SELECT_NODE,
-  nodeId
-})
+export const singleSelectNode = (nodeId: string) => ({
+  type: actionTypes.SINGLE_SELECT_NODE,
+  nodeId,
+});
 
-export const multiSelectNode = (nodeId) => ({
-  type: types.MULTI_SELECT_NODE,
-  nodeId
-})
+export const multiSelectNode = (nodeId: string) => ({
+  type: actionTypes.MULTI_SELECT_NODE,
+  nodeId,
+});
 
 export const clearSelectedNodes = () => ({
-  type: types.CLEAR_SELECTED_NODES
-})
+  type: actionTypes.CLEAR_SELECTED_NODES,
+});
 
-export const dragNode = (dx, dy, nodeId) => (dispatch, getState) => {
-  if (isResizing(getState())) return
+export const dragNode = (dx: number, dy: number, nodeId: string) => (dispatch: Dispatch, getState: GetState) => {
+  if (isResizing(getState())) return;
   dispatch({
-    type: types.DRAG_NODE,
+    type: actionTypes.DRAG_NODE,
     nodeId: nodeId,
-    draggedIds: getPassiveSelectedIds(getState()),
+    draggedIds: getPreviousSelectedIds(getState()),
     dx: dx,
-    dy: dy
-  })
-}
+    dy: dy,
+  });
+};
 
-export const stopDraggingNode = (nodeId) => (dispatch, getState) => {
-  let dragDistance = getDragDistance(getState())
+export const stopDraggingNode = (nodeId: string) => (dispatch: Dispatch, getState: GetState) => {
+  const { x, y } = getDragDistance(getState());
   dispatch({
-    type: types.STOP_DRAGGING_NODE,
+    type: actionTypes.STOP_DRAGGING_NODE,
     nodeId: nodeId,
-    draggedIds: getPassiveSelectedIds(getState()),
-    dx: dragDistance.x,
-    dy: dragDistance.y
-  })
-}
+    draggedIds: getPreviousSelectedIds(getState()),
+    dx: x,
+    dy: y,
+  });
+};
 
-export const startDraggingPoint = (nodeId, pointId) => ({
-  type: types.START_DRAGGING_POINT,
+export const startDraggingPoint = (nodeId: string, pointId: string) => ({
+  type: actionTypes.START_DRAGGING_POINT,
   nodeId,
-  pointId
-})
+  pointId,
+});
 
-const minNodeWidth = 50
-const minNodeHeight = 50
-export const dragPoint = (nodeId, pointId, dx, dy) => (dispatch, getState) => {
-  let node = getNode(getState(), nodeId)
-  let point = getPointForNode(getState(), nodeId, pointId)
-  if (node.width <= minNodeWidth && (point.axis.x * dx < 0)) return
-  if (node.height <= minNodeHeight && (point.axis.y * dy < 0)) return
+const minNodeWidth = 50;
+const minNodeHeight = 50;
+export const dragPoint = (nodeId: string, pointId: string, dx: number, dy: number) => (dispatch: Dispatch, getState: GetState) => {
+  const node: GraphNode = getNode(getState(), nodeId);
+  const point: GraphPoint = getPointForNode(getState(), nodeId, pointId);
+
+  if (node.width <= minNodeWidth && (point.axis.x * dx < 0)) return;
+  if (node.height <= minNodeHeight && (point.axis.y * dy < 0)) return;
+
   dispatch({
-    type: types.DRAG_POINT,
+    type: actionTypes.DRAG_POINT,
     nodeId: nodeId,
     pointId: pointId,
     dx: dx,
     dy: dy,
-    axis: point.axis
-  })
+    axis: point.axis,
+  });
 }
 
 export const stopDraggingPoint = () => ({
-  type: types.STOP_DRAGGING_POINT
-})
+  type: actionTypes.STOP_DRAGGING_POINT,
+});
 
-export const bringNodesToFront = () => (dispatch, getState) => {
+export const bringNodesToFront = () => (dispatch: Dispatch, getState: GetState) => {
   dispatch({
-    type: types.BRING_NODES_TO_FRONT,
-    selectedIds: getSelectedIds(getState())
-  })
-}
+    type: actionTypes.BRING_NODES_TO_FRONT,
+    selectedIds: getSelectedIds(getState()),
+  });
+};
 
-export const sendNodesToBack = () => (dispatch, getState) => {
+export const sendNodesToBack = () => (dispatch: Dispatch, getState: GetState) => {
   dispatch({
-    type: types.SEND_NODES_TO_BACK,
-    selectedIds: getSelectedIds(getState())
-  })
-}
+    type: actionTypes.SEND_NODES_TO_BACK,
+    selectedIds: getSelectedIds(getState()),
+  });
+};
+
+export const addManyNodes = (width: number, height: number) => (dispatch: Dispatch, getState: GetState) => {
+  let x = 5;
+  let y = 5;
+
+  for (let i = 0; i < 99; i++) {
+    dispatch({
+      type: actionTypes.ADD_NODE,
+      nodeId: v4(),
+      x: x,
+      y: y,
+      width,
+      height,
+    });
+
+    x += 5;
+    y += 5;
+  }
+};
+
+export const selectAllNodes = () => (dispatch: Dispatch, getState: GetState) => {
+  dispatch({
+    type: actionTypes.SELECT_ALL_NODES,
+    allNodeIds: getOrderedIds(getState()),
+  });
+};

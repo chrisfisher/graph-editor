@@ -1,13 +1,35 @@
 /* Graph styling */
 
 body {
-  padding: 20px;  
+  padding: 20px;
+}
+
+.button {
+  color: #333;
+  background-color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }
 
 .graphScene {
   margin: 20px 0;
-  width: 800px;
-  height: 600px;  
+  width: 900px;
+  height: 600px;
   border: 1px solid #eee;
 }
 
@@ -54,6 +76,3 @@ body {
 .graphPoint.northWest {
   cursor: nw-resize;
 }
-
-
-

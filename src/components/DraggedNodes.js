@@ -1,28 +1,47 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import DraggedNode from './DraggedNode'
-import { getDraggedNodes, getDragDistance } from '../reducers'
+// @flow
 
-const DraggedNodes = ({ draggedNodes, dx, dy }) => {
-  return (
-    <g transform={'translate(' + dx + ',' + dy +')'}>
-      {draggedNodes.map(x => (
-        <DraggedNode key={x.nodeId} draggedNodeFrame={x.draggedNodeFrame} graphPoints={x.graphPoints} />
-        )
-      )}
-    </g>
-  )
-}
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import DraggedNode from './DraggedNode';
+import { getDraggedNodes, getDragDistance } from '../reducers';
 
-const mapStateToProps = (state) => {
-  let {x, y} = getDragDistance(state)
-  return {
-    draggedNodes: getDraggedNodes(state),
-    dx: x,
-    dy: y
+import type GraphNodeWithPoints from '../reducers';
+
+type Props = {
+  draggedNodes: GraphNodeWithPoints[];
+  dx: number;
+  dy: number;
+};
+
+class DraggedNodes extends PureComponent {
+  props: Props;
+
+  render() {
+    const { draggedNodes, dx, dy } = this.props;
+
+    return (
+      <g transform={`translate(${dx},${dy})`}>
+        {draggedNodes.map((nodeWithPoints: GraphNodeWithPoints) =>
+          <DraggedNode
+            key={nodeWithPoints.nodeId}
+            node={nodeWithPoints.node}
+            points={nodeWithPoints.points}
+          />
+        )}
+      </g>
+    );
   }
 }
 
+const mapStateToProps = state => {
+  const { x, y } = getDragDistance(state);
+  return {
+    draggedNodes: getDraggedNodes(state),
+    dx: x,
+    dy: y,
+  };
+};
+
 export default connect(
   mapStateToProps
-)(DraggedNodes)
+)(DraggedNodes);

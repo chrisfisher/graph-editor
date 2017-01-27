@@ -1,67 +1,85 @@
-import { combineReducers } from 'redux'
-import graphNodes from './graphNodes'
-import graphPoints, { getPointsForNode } from './graphPoints'
-import { createSelector  } from 'reselect'
+// @flow
 
-export default combineReducers({
+import { combineReducers } from 'redux';
+import { createSelector  } from 'reselect';
+import graphNodes from './graphNodes';
+import graphPoints from './graphPoints';
+import difference from 'lodash/difference';
+
+import type Action from 'redux';
+
+import type { GraphNodesState, GraphNodesByIdMap, GraphNode, Coordinates } from './graphNodes';
+import type { GraphPointsState, GraphPointsByNodeIdMap, GraphPoint } from './graphPoints';
+
+export type AppState = {
+  graphNodes: GraphNodesState;
+  graphPoints: GraphPointsState;
+}
+
+type AppReducer = (state: AppState, action: Action) => AppState;
+
+const reducer: AppReducer = combineReducers({
   graphNodes,
-  graphPoints
-})
+  graphPoints,
+});
 
-export const getSelectedIds = state => state.graphNodes.selectedIds
+export default reducer;
 
-export const getDraggableNodes = state => {
-  return state.graphNodes.orderedIds.map(x => ({
-    nodeId: x,
-    draggableNodeFrame: state.graphNodes.byId[x],
-    graphPoints: getPointsForNode(state.graphPoints, x)
-  }))
+export type GraphNodeWithPoints = {
+  nodeId: string;
+  node: GraphNode;
+  points: GraphPoint[];
 }
 
-export const getDraggedNodes = state => {
-  return state.graphNodes.draggedIds.map(x => ({
-    nodeId: x,
-    draggedNodeFrame: state.graphNodes.byId[x],
-    graphPoints: getPointsForNode(state.graphPoints, x)
-  }))
-}
+export const getNodesById = (state: AppState): GraphNodesByIdMap  => state.graphNodes.byId;
 
-export const getDragDistance = state => {
-  let dragDistance = state.graphNodes.dragDistance
-  return {
-    x: dragDistance.x || 0,
-    y: dragDistance.y || 0
-  }
-}
+export const getSelectedIds = (state: AppState): string[] => state.graphNodes.selectedIds;
 
-export const isResizing = state => state.graphPoints.isResizing
+export const getDraggedIds = (state: AppState): string[] => state.graphNodes.draggedIds;
 
-export const getNode = (state, nodeId) => state.graphNodes.byId[nodeId]
+export const getOrderedIds = (state: AppState): string[] => state.graphNodes.orderedIds;
 
-export const getPointForNode = (state, nodeId, pointId) => state.graphPoints.byNodeId[nodeId].find(x => x.pointId === pointId)
+export const getLastSelectedId = (state: AppState): number => state.graphNodes.lastSelectedId;
 
-const getNodesById = state => state.graphNodes.byId
+export const getDragDistance = (state: AppState): Coordinates => state.graphNodes.dragDistance;
 
-const getSelectedId = state => state.graphNodes.selectedId
+export const isResizing = (state: AppState): boolean => state.graphPoints.isResizing;
 
-const getDraggedIds = state => state.graphNodes.draggedIds
+export const getPointsByNodeId = (state: AppState): GraphPointsByNodeIdMap => state.graphPoints.byNodeId;
 
-export const getPassiveSelectedIds = createSelector(
-  [getSelectedId, getSelectedIds],
-  (selectedId, selectedIds) => {
-    let passiveSelectedIds = [ ...selectedIds ]
-    passiveSelectedIds.splice(passiveSelectedIds.indexOf(selectedId), 1)
-    return passiveSelectedIds
-  }
-)
+export const getNode = (state: AppState, nodeId: string) =>
+  getNodesById(state)[nodeId];
+
+export const getPointForNode = (state: AppState, nodeId: string, pointId: string) =>
+  getPointsByNodeId(state)[nodeId].find(x => x.pointId === pointId);
+
+export const getPreviousSelectedIds = createSelector(
+  [getSelectedIds, getLastSelectedId],
+  (selectedIds, lastSelectedId) =>
+    [...selectedIds].filter(selectedId => selectedId !== lastSelectedId)
+);
 
 export const getDraggableIds = createSelector(
-  [getNodesById, getDraggedIds],
-  (nodesById, draggedIds) => {
-    let draggableIds = Object.keys(nodesById).map(x => parseInt(x))
-    draggedIds.forEach(x => {
-      draggableIds.splice(draggableIds.indexOf(x), 1)
-    })
-    return draggableIds
-  }
-)
+  [getOrderedIds, getDraggedIds],
+  (orderedIds, draggedIds) => difference(orderedIds, draggedIds)
+);
+
+export const getDraggableNodes = createSelector(
+  [getDraggableIds, getNodesById, getPointsByNodeId],
+  (draggableIds, nodesById, pointsByNodeId) =>
+    draggableIds.map((nodeId: string): GraphNodeWithPoints => ({
+      nodeId: nodeId,
+      node: nodesById[nodeId],
+      points: pointsByNodeId[nodeId],
+    }))
+);
+
+export const getDraggedNodes = createSelector(
+  [getDraggedIds, getNodesById, getPointsByNodeId],
+  (draggedIds, nodesById, pointsByNodeId) =>
+    draggedIds.map((nodeId: string): GraphNodeWithPoints => ({
+      nodeId: nodeId,
+      node: nodesById[nodeId],
+      points: pointsByNodeId[nodeId],
+    }))
+);
